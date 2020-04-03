@@ -3,7 +3,7 @@ int Solution::isPalindrome(int A) {
         return 0;
     }
     long int exp = 10;
-    while(A/exp >= 1){
+    while(A/exp > 0){
         exp *= 10;
     }
     exp /= 10;
