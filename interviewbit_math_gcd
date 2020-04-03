@@ -1,8 +1,14 @@
 int Solution::gcd(int A, int B) {
     int a;
     if(A<B){
+        if(A==0){
+            return B;
+        }
         a = A;
     }else{
+        if(B==0){
+            return A;
+        }
         a = B;
     }
     for(int i=a; i>0; i--){
@@ -10,5 +16,4 @@ int Solution::gcd(int A, int B) {
             return i;
         }
     }
-    return max(A, B);
 }
