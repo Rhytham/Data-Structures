@@ -1,0 +1,76 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ void merge(ListNode* A1, ListNode* A2, int start, int mid, int end){
+     int i=start, j=mid+1;
+     ListNode* t1=A1, *t2=A2, *prev=NULL, *head=A1;
+     while(i<=mid && j<=end){
+         if(t1->val > t2->val){
+             if(prev)
+                prev->next= t2;
+             else{
+                 head=t2;
+             }
+             ListNode* temp2=t2->next;
+             t2->next=t1;
+             prev=t2;
+             t2=temp2;
+         } else{
+             prev=t1;
+             t1=t1->next;
+         }
+         
+         i++;
+         j++;
+     }
+     while(j<end){
+             t1->next=t2;
+             t2=t2->next;
+             j++;
+     }
+     prev->next=t2;
+     A1=head;
+ }
+ 
+ void mergesort(ListNode* A, int start, int end){
+     if(start>=end){
+         return;
+     }
+     int mid=(start+end)/2, i=start;
+     ListNode* temp=A;
+     while(i<mid){
+         temp=temp->next;
+         i++;
+     }
+     temp=temp->next;
+     cout<<A->val<<" "<<temp->val<<" "<<start<<" "<<end<<endl;
+     mergesort(A, start, mid);
+     mergesort(temp, mid+1, end);
+     merge(A, temp, start, mid, end);
+     i=start;
+     temp=A;
+     cout<<"#"<<start<<" "<<end<<endl;
+     while(i<end){
+         cout<<"@ "<<temp->val<<" "<<endl;
+         temp=temp->next;
+         i++;
+     }
+     cout<<endl;
+ }
+ 
+ListNode* Solution::sortList(ListNode* A) {
+    ListNode* temp=A;
+    int n=0;
+    while(temp){
+        n++;
+        temp=temp->next;
+    }
+    mergesort(A, 0, n-1);
+    return A;
+}
