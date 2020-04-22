@@ -7,7 +7,7 @@
  * };
  */
  
- void merge(ListNode* A1, ListNode* A2, int start, int mid, int end){
+ListNode* merge(ListNode* A1, ListNode* A2, int start, int mid, int end){
      int i=start, j=mid+1;
      ListNode* t1=A1, *t2=A2, *prev=NULL, *head=A1;
      while(i<=mid && j<=end){
@@ -21,47 +21,46 @@
              t2->next=t1;
              prev=t2;
              t2=temp2;
+             j++;
          } else{
              prev=t1;
              t1=t1->next;
+             i++;
          }
-         
-         i++;
-         j++;
      }
-     while(j<end){
-             t1->next=t2;
+     while(j<=end){
+             prev->next=t2;
+             prev=t2;
              t2=t2->next;
              j++;
      }
+     while(i<=mid){
+         prev=t1;
+         t1=t1->next;
+         i++;
+     }
      prev->next=t2;
      A1=head;
+     return A1;
  }
  
- void mergesort(ListNode* A, int start, int end){
-     if(start>=end){
-         return;
+ ListNode* mergesort(ListNode* A, int start, int end){
+     if(start>end){
+         return NULL;
+     }
+     if(start==end){
+         return A;
      }
      int mid=(start+end)/2, i=start;
      ListNode* temp=A;
-     while(i<mid){
+     while(i<=mid){
          temp=temp->next;
          i++;
      }
-     temp=temp->next;
-     cout<<A->val<<" "<<temp->val<<" "<<start<<" "<<end<<endl;
-     mergesort(A, start, mid);
-     mergesort(temp, mid+1, end);
-     merge(A, temp, start, mid, end);
-     i=start;
-     temp=A;
-     cout<<"#"<<start<<" "<<end<<endl;
-     while(i<end){
-         cout<<"@ "<<temp->val<<" "<<endl;
-         temp=temp->next;
-         i++;
-     }
-     cout<<endl;
+     A=mergesort(A, start, mid);
+     temp=mergesort(temp, mid+1, end);
+     A=merge(A, temp, start, mid, end);
+     return A;
  }
  
 ListNode* Solution::sortList(ListNode* A) {
@@ -71,6 +70,6 @@ ListNode* Solution::sortList(ListNode* A) {
         n++;
         temp=temp->next;
     }
-    mergesort(A, 0, n-1);
+    A=mergesort(A, 0, n-1);
     return A;
 }
