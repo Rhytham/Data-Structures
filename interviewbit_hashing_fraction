@@ -1,0 +1,32 @@
+string Solution::fractionToDecimal(int a, int b) {
+    if(a==0){
+        return "0";
+    }
+    long long int A=(long long)a;
+    long long int B=(long long)b;
+    string ans="", s="";
+    if(((A>0)^(B>0))==1){
+        ans += "-";
+    }
+    A=abs(A);
+    B=abs(B);
+    long long int q=A/B;
+    long long int r=A%B;
+    ans += to_string(q);
+    long long int i=0;
+    unordered_map<int, int> m;
+    while(r !=0){
+        if(m.find(r*10)==m.end()){
+            s += to_string((r*10)/B);
+            m[(r*10)]=i++;
+            r = (r*10)%B;
+        } else{
+            string sub=s.substr(0, m[(r*10)]);
+            ans += "." + sub + "(" + s.substr(m[r*10], s.length()-sub.length()) + ")";
+            return ans;
+        }
+    }
+    if(s!="")
+    ans += ("."+s);
+    return ans;
+}
