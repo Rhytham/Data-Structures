@@ -1,0 +1,58 @@
+void heapify(vector<int> &a, int n, int i){
+    int largest=i;
+    int left=(2*i)+1, right=(2*i)+2;
+    if(left<n && a[left]<a[largest]){
+        largest=left;
+    }
+    if(right<n && a[right]<a[largest]){
+        largest=right;
+    }
+    
+    if(largest!=i){
+        int temp1=a[largest];
+        a[largest]=a[i];
+        a[i]=temp1;
+        
+        heapify(a, n, largest);
+    }
+}
+
+void heap_sort(vector<int> &A, int n){
+    for(int i=(n/2-1); i>=0; i--){
+        heapify(A, n, i);
+    }
+    
+    for(int i=(n-1); i>=0; i--){
+        int temp1=A[0];
+        A[0]=A[i];
+        A[i]=temp1;
+        heapify(A, i, 0);
+    }
+}
+
+vector<int> Solution::solve(vector<int> &A, vector<int> &B) {
+    vector<int> ans;
+    heap_sort(A, A.size());
+    heap_sort(B, B.size());
+    
+    priority_queue<pair<int, pair<int,int> > > p;
+    set<pair<int, int> > s;
+    p.push({A[0]+B[0], {0,0} });
+    s.insert({0,0});
+    int k=0;
+    while(k++<A.size()){
+        pair<int, pair<int,int> > c=p.top();
+        ans.push_back(c.first);
+        int l=c.second.first, r=c.second.second;
+        p.pop();
+        if(l+1<A.size() && s.find({l+1,r})==s.end()){
+            p.push({A[l+1]+B[r], {l+1,r} });
+            s.insert({l+1,r});
+        }
+        if(r+1<A.size() && s.find({l,r+1})==s.end()){
+            p.push({A[l]+B[r+1], {l,r+1} });
+            s.insert({l,r+1});
+        }
+    }
+    return ans;
+}
