@@ -1,27 +1,18 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
- struct comp{
+struct comp{
      bool operator()(pair<ListNode*, int> a, pair<ListNode*, int> b){
-         return (a.first)->val < (b.first)->val;
+         return (a.first)->val > (b.first)->val;
      }
  };
  
 ListNode* Solution::mergeKLists(vector<ListNode*> &A) {
     int k=A.size(), req=k;
-    ListNode* head=NULL, *curr=head;
-    //vector<ListNode*> ptr(k);
+    ListNode* head=NULL, *curr=NULL;
+    vector<ListNode*> ptr(k);
     priority_queue<pair<ListNode*, int>, vector<pair<ListNode*, int> >, comp> p;
     for(int i=0; i<k; i++){
         if(A[i]){
             ptr[i]=A[i];
             p.push({ptr[i], i});
-            cout<<p.top().first->val<<" ";
         } else{
             req--;
         }
@@ -30,13 +21,14 @@ ListNode* Solution::mergeKLists(vector<ListNode*> &A) {
     while(req>0){
         pair<ListNode*, int> pp=p.top();
         p.pop();
-        if(!head)
+        if(!head){
             head=pp.first;
+            curr=head;
+    }
         else{
             curr->next=pp.first;
             curr=curr->next;
         }
-        cout<<curr->val<<" ";
         int i=pp.second;
         ptr[i]=ptr[i]->next;
         if(ptr[i])
