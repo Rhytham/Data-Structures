@@ -1,0 +1,85 @@
+    struct Node{
+        int key, val;
+        Node* prev, *next;
+        Node(int k, int v){
+            this->key=k;
+            this->val=v;
+            this->prev=NULL;
+            this->next=NULL;
+        }
+    };
+    Node*head=NULL, *tail=NULL;
+    unordered_map<int, Node*> m;
+    int cap;
+
+LRUCache::LRUCache(int capacity) {
+        m.clear();
+        cap=capacity;
+        head=NULL;
+        tail=NULL;
+}
+
+int LRUCache::get(int keyy) {
+        if(m.find(keyy)==m.end()){
+            return -1;
+        }
+        Node* t=m[keyy];
+        if(t->prev){
+            t->prev->next=t->next;
+            if(t->next)
+                t->next->prev=t->prev;
+            if(!t->next){
+                tail=t->prev;
+            }
+            t->prev=NULL;
+            t->next=head;
+            head->prev=t;
+            head=t;
+        }
+        return head->val;
+}
+
+void LRUCache::set(int keyy, int value) {
+        if(m.find(keyy)!=m.end()){
+                m[keyy]->val=value;
+                Node* t=m[keyy];
+                if(t->prev){
+                    t->prev->next=t->next;
+                    if(t->next)
+                        t->next->prev=t->prev;
+                    if(!t->next){
+                        tail=t->prev;
+                    }
+                    t->prev=NULL;
+                    t->next=head;
+                    head->prev=t;
+                    head=t;
+                }
+            return;
+        }
+        if(cap==0){
+            return;
+        }
+        if(cap==m.size()){
+            Node* t=tail;
+            if(t->prev){
+                t->prev->next=NULL;
+                tail=t->prev;
+            }else{
+                head=NULL;
+                tail=NULL;
+            }
+            m.erase(t->key);
+        }
+        if(!head){
+            Node* t=new Node(keyy, value);
+            tail=t;
+            head=t;
+        }else{
+            Node* t=new Node(keyy, value);
+            t->next=head;
+            head->prev=t;
+            head=t;
+        }
+        m[keyy]=head;
+}
