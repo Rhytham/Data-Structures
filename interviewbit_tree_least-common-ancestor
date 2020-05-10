@@ -1,0 +1,59 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+    struct Node{
+        TreeNode* node;
+        TreeNode* parent;
+        Node(TreeNode* n, TreeNode* p){
+            this->node=n;
+            this->parent=p;
+        }
+    };
+    Node* f1=NULL, *f2=NULL;
+    void lcaa(TreeNode* A, int B, int C, TreeNode* par,int &ans){
+        if(!A || ans!=-1)
+            return;
+        lcaa(A->left, B, C, A, ans);
+        lcaa(A->right, B, C, A, ans);
+        if(ans!=-1){
+            return;
+        }
+        if(B==A->val || C==A->val){
+            if(!f1){
+                f1=new Node(A,par);
+                if(B==C){
+                    ans=B;
+                    return;
+                }
+            }else{
+                if(f1->parent==A){
+                    ans=A->val;
+                    return;
+                }
+                f2=new Node(A,par);
+            }
+        }
+        if(f1 && f1->node!=A && f1->parent==A){
+            f1->parent=par;
+        }
+        if(f2 && f2->node!=A && f2->parent==A){
+            f2->parent=par;
+        }
+        if(f1 && f2 && f1->parent==f2->parent){
+            ans=f1->parent->val;
+            return;
+        }
+    }
+int Solution::lca(TreeNode* A, int B, int C) {
+    int ans=-1;
+    f2=NULL;
+    f1=NULL;
+    lcaa(A,B,C,A,ans);
+    return ans;
+}
