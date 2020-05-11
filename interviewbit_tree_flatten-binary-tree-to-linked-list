@@ -1,0 +1,54 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ TreeNode* inorder(TreeNode* A){
+     if(!A)
+        return NULL;
+    if(!A->left && !A->right)
+        return A;
+    A->left=inorder(A->left);
+    TreeNode* temp=A->right;
+    if(A->left){
+        A->right=A->left;
+        A->left=NULL;
+        TreeNode* t=A->right;
+        while(t->right)
+            t=t->right;
+        t->right=temp;
+    }
+    temp=inorder(temp);
+    return A;
+ }
+TreeNode* Solution::flatten(TreeNode* A) {
+   return inorder(A);
+}
+
+
+
+editorial
+TreeNode* Solution::flatten(TreeNode* A) 
+{
+    if(A==NULL)
+        return NULL;
+    TreeNode *node=A;
+    while(node!=NULL)
+    {
+        if(node->left!=NULL)
+        {
+            TreeNode *rtmost=node->left;
+            while(rtmost->right!=NULL)
+                rtmost=rtmost->right;
+            rtmost->right=node->right;
+            node->right=node->left;
+            node->left=NULL;
+        }
+        node=node->right;
+    }
+    return A;
+}
