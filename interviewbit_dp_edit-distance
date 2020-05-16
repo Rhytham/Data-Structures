@@ -1,0 +1,20 @@
+int md(string A, string B, int i, int j, vector<vector<int> > &mem){
+    if(i==A.size())
+        return B.size()-j;
+    if(j==B.size())
+        return A.size()-i;
+    if(mem[i][j] != -1)
+        return mem[i][j];
+    
+    if(A[i]==B[j]){
+        return md(A, B, i+1, j+1, mem);
+    }
+    
+    mem[i][j] = min( min(md(A, B, i+1, j, mem), md(A, B, i, j+1, mem)), md(A, B, i+1, j+1, mem)) + 1;
+    return mem[i][j];
+}
+
+int Solution::minDistance(string A, string B) {
+    vector<vector<int> > mem(A.size(), vector<int>(B.size(),-1));
+    return md(A, B, 0, 0, mem);
+}
