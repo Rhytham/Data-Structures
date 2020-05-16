@@ -1,0 +1,25 @@
+int mps(vector<vector<int> > &A, int i, int j, vector<vector<int> > &mem){
+    if(mem[i][j] != INT_MAX)
+        return mem[i][j];
+        
+    int l=INT_MAX, r=INT_MAX;
+    
+    if(i+1<A.size())
+        l=mps(A, i+1, j, mem);
+    if(j+1<A[0].size())
+        r=mps(A, i, j+1, mem);
+        
+    int ans=A[i][j];
+    if(!(l==INT_MAX && r==INT_MAX))
+        ans += min(l,r);
+        
+    mem[i][j]=ans;
+    return ans;
+}
+
+int Solution::minPathSum(vector<vector<int> > &A) {
+    if(A.size()==0)
+        return 0;
+    vector<vector<int> > mem(A.size(), vector<int>(A[0].size(), INT_MAX));
+    return mps(A,0,0,mem);
+}
