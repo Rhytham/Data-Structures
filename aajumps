@@ -1,0 +1,40 @@
+int jp(vector<int> &A, int n, int s, int &ans, vector<int> &mem){
+    if(n==0){
+        ans=min(ans,s);
+        return s;
+    }
+    if(mem[n]!=INT_MAX){
+        s += mem[n];
+        ans=min(ans,s);
+        return s;
+    }
+    int s1=INT_MAX;
+    for(int i=n-1; i>=0; i--){
+        if(i+A[i]>=n){
+            s++;
+            s1=min(s1, jp(A, i, s, ans, mem));
+            if(s1==INT_MAX){
+                ans=INT_MAX;
+                return s1;
+            }
+            s--;
+        }
+    }
+    if(s1!=INT_MAX)
+        mem[n]=min(mem[n],s1-s);
+    return s1;
+}
+int Solution::jump(vector<int> &A) {
+    if(A.size()==0)
+        return -1;
+    int ans=INT_MAX;
+    vector<int> mem(A.size());
+    for(int i=0; i<A.size(); i++)
+        mem[i]=INT_MAX;
+    mem[0]=0;
+    jp(A,A.size()-1, 0, ans, mem);
+    if(ans==INT_MAX){
+        return -1;
+    }
+    return ans;
+}
