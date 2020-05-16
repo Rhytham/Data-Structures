@@ -1,0 +1,23 @@
+
+int Solution::jump(vector<int> &A) {
+    if(A.size()==0)
+        return -1;
+    vector<int> mem(A.size());
+    mem[0]=0;
+    int l=0;
+    for(int i=1; i<A.size(); i++){
+        mem[i]=-1;
+        if(mem[i-1]==-1){
+            continue;
+        }
+        for(int j=l; j<i; j++){
+            if(j+A[j]>=i && mem[j]!=-1){
+                mem[i]=mem[j]+1;
+                l=j;
+                break;
+            }
+        }
+    }
+     
+    return mem[A.size()-1];
+}
