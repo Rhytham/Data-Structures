@@ -1,0 +1,35 @@
+vector<unordered_set<int> > make_graph(int A, vector<int> & B, vector<int> & C) 
+{ 
+    vector<unordered_set<int> > graph(A+1); 
+    for (int i=0; i<B.size(); i++) 
+        graph[B[i]].insert(C[i]); 
+    return graph; 
+}
+bool hascycle(vector<unordered_set<int> >& graph, int node,  vector<bool>& visited) 
+{ 
+    int rec[visited.size()]={0};
+    stack<int> s;
+    s.push(node);
+    while(!s.empty()){
+        int c=s.top();
+        s.pop();
+        visited[c]=1;
+        rec[c]=1;
+        for(int neigh: graph[c]){
+            if(rec[neigh])
+                return true;
+            if(visited[neigh])
+                continue;
+            s.push(neigh);
+        }
+    }
+    return false;
+}
+int Solution::solve(int A, vector<int> &B, vector<int> &C) {
+    vector<unordered_set<int> > graph = make_graph(A, B, C); 
+    vector<bool> visited(A+1, false); 
+    for (int i = 1; i < A+1; i++) 
+        if (!visited[i] && hascycle(graph, i, visited)) 
+            return false; 
+    return true;
+}
