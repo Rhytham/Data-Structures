@@ -1,0 +1,66 @@
+string Solution::solve(int A, int B, int C, int D, vector<int> &E, vector<int> &F) {
+    vector<vector<int> > v;
+    for(int i=0; i<=A; i++){
+        vector<int> v1;
+        for(int j=0; j<=B; j++){
+            v1.push_back(0);
+            for(int k=0; k<C; k++){
+                if((sqrt( pow((E[k]-i),2) + pow((F[k]-j),2)) )<=D){
+                    v1[j]=-1;
+                    break;
+                }
+            }
+        }
+        v.push_back(v1);
+    }
+    
+    if(v[0][0]==-1){
+        return "NO";
+    }
+    
+    queue<pair<int,int> > q;
+    q.push({0,0});
+    v[0][0]=2;
+    while(!q.empty()){
+        pair<int,int> arr=q.front();
+        q.pop();
+        
+        if(arr.first+1<=A && v[arr.first+1][arr.second]!=-1 && v[arr.first+1][arr.second]!=2){
+            q.push({arr.first+1, arr.second});
+            v[arr.first+1][arr.second]=2;
+        }
+        if(arr.second+1<=B && v[arr.first][arr.second+1]!=-1 && v[arr.first][arr.second+1]!=2){
+            q.push({arr.first, arr.second+1});
+            v[arr.first][arr.second+1]=2;
+        }
+        if(arr.first+1<=A && arr.second+1<=B && v[arr.first+1][arr.second+1]!=-1 && v[arr.first+1][arr.second+1]!=2){
+            q.push({arr.first+1, arr.second+1});
+            v[arr.first+1][arr.second+1]=2;
+        }
+        if(arr.first-1>=0 && v[arr.first-1][arr.second]!=-1 && v[arr.first-1][arr.second]!=2){
+            q.push({arr.first-1, arr.second});
+            v[arr.first-1][arr.second]=2;
+        }
+        if(arr.second-1>=0 && v[arr.first][arr.second-1]!=-1 && v[arr.first][arr.second-1]!=2){
+            q.push({arr.first, arr.second-1});
+            v[arr.first][arr.second-1]=2;
+        }
+        if(arr.first-1>=0 && arr.second-1>=0 && v[arr.first-1][arr.second-1]!=-1 && v[arr.first-1][arr.second-1]!=2){
+            q.push({arr.first-1, arr.second-1});
+            v[arr.first-1][arr.second-1]=2;
+        }
+        if(arr.first+1<=A && arr.second-1>=0 && v[arr.first+1][arr.second-1]!=-1 && v[arr.first+1][arr.second-1]!=2){
+            q.push({arr.first+1, arr.second-1});
+            v[arr.first+1][arr.second-1]=2;
+        }
+        if(arr.first-1>=0 && arr.second+1<=B && v[arr.first-1][arr.second+1]!=-1 && v[arr.first-1][arr.second+1]!=2){
+            q.push({arr.first-1, arr.second+1});
+            v[arr.first-1][arr.second+1]=2;
+        }
+    }
+    if(v[A][B]==2){
+        return "YES";
+    }
+    
+    return "NO";
+}
