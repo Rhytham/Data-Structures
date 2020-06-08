@@ -1,0 +1,40 @@
+int find(int i, int parent[]) 
+{ 
+    while (parent[i] != i) 
+        i = parent[i]; 
+    return i; 
+} 
+void union1(int i, int j, int parent[]) 
+{ 
+    int a = find(i, parent); 
+    int b = find(j, parent); 
+    parent[a] = b; 
+} 
+
+struct cmp { 
+    bool operator()(vector<int> const& p1, vector<int> const& p2) 
+    { 
+        return p1[2] > p2[2]; 
+    } 
+}; 
+
+int Solution::solve(int A, vector<vector<int> >& B) {
+    priority_queue<vector<int>, vector<vector<int> >, cmp> p;
+    for(int i=0; i<B.size(); i++){
+        p.push(B[i]);
+    }
+    int parent[A+1];
+    for(int i=1; i<=A; i++){
+        parent[i]=i;
+    }
+    int ans=0;
+    for(int i=0; i<A-1; i++){
+        while(find(p.top()[0], parent)==find(p.top()[1], parent)){
+            p.pop();
+        }
+        ans += (p.top())[2];
+        union1(p.top()[0], p.top()[1], parent);
+        p.pop();
+    }
+    return ans;
+}
