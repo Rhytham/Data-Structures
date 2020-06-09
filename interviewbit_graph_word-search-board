@@ -1,0 +1,56 @@
+int Solution::exist(vector<string> &A, string B) {
+    
+    
+    for(int i=0; i<A.size(); i++){
+        for(int j=0; j<A[0].length(); j++){
+            if(A[i][j] != B[0])
+                continue;
+            stack<vector<int> >s;
+            vector<int> v{i,j,0};
+            s.push(v);
+            int cc=0;
+            while(!s.empty()){
+                vector<int> c = s.top();
+                while(!s.empty() && (A[c[0]][c[1]] != B[cc] || c[2]==1)){
+                    if(c[2] == 1){
+                        cc--;
+                        s.pop();
+                    } else{
+                        s.pop();
+                    }
+                    if(!s.empty()){
+                        c=s.top();
+                    }
+                }
+                if(!s.empty() && A[c[0]][c[1]] == B[cc]){
+                    c=s.top();
+                    s.pop();
+                    vector<int> v1{c[0],c[1],1};
+                    s.push(v1);
+                    cc++;
+                    if(c[0]+1<A.size()){
+                        vector<int> v2{c[0]+1,c[1],0};
+                        s.push(v2);
+                    }
+                    if(c[1]+1<A[0].size()){
+                        vector<int> v3{c[0],c[1]+1,0};
+                        s.push(v3);
+                    }
+                    if(c[0]-1>=0){
+                        vector<int> v4{c[0]-1,c[1],0};
+                        s.push(v4);
+                    }
+                    if(c[1]-1>=0){
+                        vector<int> v5{c[0],c[1]-1,0};
+                        s.push(v5);
+                    }
+                }
+                if(cc==B.length()){
+                    return 1;
+                }
+            }
+        }
+    }
+    
+    return 0;
+}
