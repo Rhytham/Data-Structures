@@ -1,0 +1,18 @@
+int Solution::firstMissingPositive(vector<int> &A) {
+    for(int i=0; i<A.size(); i++){
+        if(A[i]==i+1)
+            continue;
+        int p=A[i];
+        while(p>0 && p<=A.size() && A[p-1]!=p){
+            int ind=p;
+            p=A[ind-1];
+            A[ind-1]=ind;
+        }
+    }
+    for(int i=0; i<A.size(); i++){
+        if(A[i]!=i+1){
+            return i+1;
+        }
+    }
+    return A.size()+1;
+}
