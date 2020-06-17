@@ -1,0 +1,19 @@
+TreeNode* Solution::invertTree(TreeNode* A) {
+    if(!A){
+        return A;
+    }
+    stack<TreeNode*> s;
+    s.push(A);
+    while(!s.empty()){
+        TreeNode* node=s.top();
+        s.pop();
+        if(node->right)
+            s.push(node->right);
+        if(node->left)
+            s.push(node->left);
+        TreeNode* c = node->left;
+        node->left = node->right;
+        node->right = c;
+    }
+    return A;
+}
