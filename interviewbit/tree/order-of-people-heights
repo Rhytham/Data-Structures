@@ -1,0 +1,46 @@
+vector<int> buildSegTree(int len, int ilg, int n){
+    vector<int> tree(n);
+    for(int i=0; i<len; i++)
+        tree[ilg+i-1]=1;
+    for(int i=ilg-2; i>=0; i--)
+        tree[i] = tree[2*i+1]+tree[2*i+2];
+    return tree;
+}
+
+int empty_pos(vector<int> &tree, int pos, int ilg){
+    int n = ilg, i=0;
+    while(i<n-1){
+        tree[i]--;
+        if(tree[2*i+1] > pos)
+            i = 2*i+1;
+        else{
+            pos -= tree[2*i+1];
+            i = 2*i+2;
+        }
+    }
+    tree[i]--;
+    return i-n+1;
+}
+
+vector<int> Solution::order(vector<int> &A, vector<int> &B) {
+    int len = A.size();
+    vector<int> p(len);
+    for (int i=0; i<len; i++){
+        p[i]=i;
+    }
+    sort(p.begin(), p.end(), [&](const int&a, const int&b){ return A[a]<A[b]; });
+    float lg = log2(len);
+    int ilg = (int)lg;
+    if(lg > (float)ilg)
+        ilg=pow(2,ilg+1);
+    else
+        ilg=pow(2,ilg);
+    int n=2*ilg-1;
+    vector<int> tree = buildSegTree(len, ilg, n);
+    vector<int> ans(len);
+    for (int i=0; i<len; i++){
+        ans[empty_pos(tree, B[p[i]], ilg)] = A[p[i]];
+    }
+
+    return ans;
+}
