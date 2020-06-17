@@ -1,0 +1,21 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int traversal(TreeNode* node1, TreeNode* node2){
+    if(!node1 && !node2)
+        return 1;
+    if(!node1 || !node2 || node1->val!=node2->val)
+        return 0;
+    int a1 = traversal(node1->left, node2->left);
+    int a2 = traversal(node1->right, node2->right);
+    return a1 & a2;
+}
+int Solution::isSameTree(TreeNode* A, TreeNode* B) {
+    return traversal(A, B);
+}
