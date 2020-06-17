@@ -1,0 +1,25 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ // preorder traversal
+ int traversal(TreeNode* node1, TreeNode* node2){
+    if(!node1 && !node2) //leaf node
+        return 1;
+    if(!node1 || !node2 || node1->val!=node2->val) //nodes are not equal
+        return 0;
+    int left_right = traversal(node1->left, node2->right); //check left of one node is similar to right of other node(mirror image)
+    if(node1==node2){ //case when both ends are completely checked like in root if left right node is checked, right left node checking will also yield the same result
+        return left_right;
+    }
+    int right_left = traversal(node1->right, node2->left); //check right of one node is similar to left of other node(mirror image)
+    return left_right & right_left;
+}
+int Solution::isSymmetric(TreeNode* A) {
+    return traversal(A, A);
+}
