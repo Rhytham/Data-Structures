@@ -1,0 +1,50 @@
+struct TrieNode{
+    TrieNode* children[26];
+    bool eow;
+    int freq;
+    TrieNode(){
+        this->eow=false;
+        for(int i=0; i<26; i++)
+            this->children[i]=NULL;
+        this->freq=0;
+    }
+};
+
+
+void insert(TrieNode* root, string key){
+    TrieNode* node = root;
+    for(int i=0;i<key.length();i++){
+        int index = key[i]-'a';
+        if(!node->children[index])
+            node->children[index]= new TrieNode();
+        node = node->children[index];
+        node->freq++;
+    }
+    node->eow=true;
+}
+
+string search(TrieNode* root, string key){
+    TrieNode* node = root;
+    string ans = "";
+    for(int i=0;i<key.length();i++){
+        int index = key[i]-'a';
+        node = node->children[index];
+        ans += key[i];
+        if(node->freq==1)
+            return ans;
+    }
+    return ans;
+}
+
+vector<string> Solution::prefix(vector<string> &A) {
+    int n = A.size();
+    vector<string> ans(n);
+    TrieNode* root = new TrieNode();
+    for(int i=0;i<n;i++){
+        insert(root, A[i]);
+    }
+    for(int i=0;i<n;i++){
+        ans[i] = search(root, A[i]);
+    }
+    return ans;
+}
