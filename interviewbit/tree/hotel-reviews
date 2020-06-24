@@ -1,0 +1,79 @@
+struct TrieNode{
+    TrieNode* children[26];
+    bool eow;
+    TrieNode(){
+        this->eow=false;
+        for(int i=0; i<26; i++)
+            this->children[i]=NULL;
+    }
+};
+
+void insert(TrieNode* root, string key){
+    TrieNode* node = root;
+    for(int i=0; i<key.length(); ){
+        node = root;
+        while(i<key.length() && key[i]!='_'){
+            int index = key[i]-'a';
+            if(!node->children[index])
+                node->children[index]= new TrieNode();
+            node = node->children[index];
+            i++;
+        }
+        node->eow=true;
+        i++;
+    }
+}
+int search(TrieNode* root, string key){
+    int freq=0;
+    TrieNode* node = root;
+    for(int i=0; i<key.length(); ){
+        node = root;
+        while(i<key.length() && key[i]!='_'){
+            int index = key[i]-'a';
+            if(!node->children[index]){
+                node=NULL;
+                break;
+            }
+            node = node->children[index];
+            i++;
+        }
+        if(i==key.length() && node && node->eow){
+            freq++;
+            break;
+        }
+        if(key[i]=='_' && node && node->eow)
+            freq++;
+        while(i<key.length() && key[i] != '_')
+            i++;
+        i++;
+    }
+    return freq;
+}
+
+bool compare (pair <int, int> &a, pair <int, int> &b) {
+    if (a.first > b.first) {
+        return 1;
+    }
+    if (a.first < b.first) {
+        return 0;
+    }
+    if(a.second < b.second) return true;
+    return false;
+}
+vector<int> Solution::solve(string A, vector<string> &B) {
+    TrieNode* root = new TrieNode();
+    //cout<<0<<" ";
+    insert(root, A);
+    //cout<<1<<" ";
+    vector <pair <int, int> > v;
+    for (int i=0; i<B.size(); i++) {
+        v.push_back({search(root, B[i]), i});
+        //cout<<B[i]<<" ";
+    }
+    sort (v.begin(), v.end(), compare);
+    vector <int> ans;
+    for (int i=0; i<v.size(); i++) {
+        ans.push_back(v[i].second);
+    }
+    return ans;
+}
