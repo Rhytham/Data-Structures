@@ -1,0 +1,36 @@
+bool isPalindrome(string A, int a, int b){
+    int i=a, j=b;
+    while(j>=a && i<=b && i<j){
+        if(A[i++] != A[j--])
+            return false;
+    }    
+    return true;
+}
+
+int solve(string A, int i, int j, vector<vector<int> > &dp){
+    if(i>=j)
+        return 0;
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    if(isPalindrome(A, i, j))
+        return 0;
+    int ans = INT_MAX;
+    for(int k=i; k<j; k++){
+        int left, right;
+         if(dp[i][k]!=-1) 
+            left = dp[i][k];
+        else 
+            left = solve(A,i,k, dp);
+        if(k+1<j && dp[k+1][j]!=-1) 
+            right = dp[k+1][j];
+        else 
+            right = solve(A,k+1,j, dp);
+        int tempans = left + right + 1;
+        ans = min(ans, tempans);
+    }
+    return dp[i][j]=ans;
+}
+int Solution::minCut(string A) {
+    vector<vector<int> > dp(A.length(), vector<int>(A.length(), -1));
+    return solve(A, 0, A.length()-1, dp);
+}
