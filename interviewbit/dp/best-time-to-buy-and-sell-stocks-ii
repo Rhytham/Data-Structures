@@ -1,0 +1,15 @@
+int Solution::maxProfit(const vector<int> &A) {
+    int i=0, n=A.size(), ans=0;
+    while(i<n-1){
+        while(i<n-1 && (A[i+1]<=A[i]))
+            i++;
+        if(i==n-1)
+            break;
+        int buy=i++;
+        while(i<n && (A[i]>=A[i-1]))
+            i++;
+        int sell = i-1;
+        ans += (A[sell]-A[buy]);
+    }
+    return ans;
+}
