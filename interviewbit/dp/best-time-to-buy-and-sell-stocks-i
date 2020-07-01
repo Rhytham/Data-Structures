@@ -1,0 +1,18 @@
+int Solution::maxProfit(const vector<int> &A) {
+    int left[A.size()], mn=INT_MAX;
+    int right[A.size()], mx=INT_MIN;
+    
+    for(int i=0; i<A.size(); i++){
+        mn = min(mn, A[i]);
+        left[i] = mn;
+    }
+    for(int i=A.size()-1; i>=0; i--){
+        mx = max(mx, A[i]);
+        right[i] = mx;
+    }
+    int ans = 0;
+    for(int i=0; i<A.size(); i++){
+        ans = max(ans, (right[i]-left[i]));
+    }
+    return ans;
+}
