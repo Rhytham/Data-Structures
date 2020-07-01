@@ -1,0 +1,44 @@
+int solve(string A, int i, int j, bool isTrue, unordered_map<string, int> &mp){
+    if(i>j)
+        return 0;
+    if(i==j){
+        if(isTrue)
+            return A[i]=='T';
+        else
+            return A[i]=='F';
+    }
+    string temp = to_string(i)+' '+to_string(j)+' '+to_string(isTrue);
+    if(mp.find(temp) != mp.end())
+        return mp[temp];
+    int ans=0;
+    for(int k=i+1; k<j; k+=2){
+        int lt = solve(A, i, k-1, true, mp);
+        int lf = solve(A, i, k-1, false, mp);
+        int rt = solve(A, k+1, j, true, mp);
+        int rf = solve(A, k+1, j, false, mp);
+        
+        if(A[k]=='&'){
+            if(isTrue)
+                ans += (lt*rt);
+            else
+                ans += (lt*rf + lf*rt + lf*rf);
+        } else if(A[k]=='|'){
+            if(isTrue)
+                ans += (lt*rt+ lt*rf + lf*rt);
+            else
+                ans += (lf*rf);
+        } else if(A[k]=='^'){
+            if(isTrue)
+                ans += (lt*rf + lf*rt);
+            else
+                ans += (lt*rt + lf*rf);
+        }
+        ans %= 1003;
+    }
+    return mp[temp]=ans;
+}
+
+int Solution::cnttrue(string A) {
+    unordered_map<string, int> mp;
+    return solve(A, 0, A.length()-1, true, mp);
+}
