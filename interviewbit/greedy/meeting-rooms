@@ -1,0 +1,15 @@
+int Solution::solve(vector<vector<int> > &A) {
+    sort(A.begin(), A.end());
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+
+    if(A.size() == 0) return 0;
+    minHeap.push(A[0][1]);
+    
+    for(int i = 1; i < A.size(); i++) {
+        if(A[i][0] >= minHeap.top()) {
+            minHeap.pop();
+        }
+        minHeap.push(A[i][1]);
+    }
+    return minHeap.size();
+}
