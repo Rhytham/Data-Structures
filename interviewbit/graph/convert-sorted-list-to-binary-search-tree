@@ -1,0 +1,47 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ int getlen(ListNode* A){
+     int n=0;
+     while(A){
+         n++;
+         A=A->next;
+     }
+     return n;
+ }
+ ListNode* find(ListNode* A, int n){
+     while(n>0){
+         n--;
+         A = A->next;
+     }
+     return A;
+ }
+ TreeNode* generate(ListNode* A, int n){
+     if(n==0)
+        return NULL;
+    ListNode* mid = find(A, n/2);
+    TreeNode* node = new TreeNode(mid->val);
+    
+    node->left = generate(A, n/2);
+    node->right = generate(mid->next, (n-1)/2);
+    return node;
+ }
+TreeNode* Solution::sortedListToBST(ListNode* A) {
+    int n=getlen(A);
+    TreeNode* root = generate(A, n);
+    return root;
+}
