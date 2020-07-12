@@ -1,0 +1,89 @@
+class Solution {
+public:
+    vector<vector<int> > generateMatrix(int n) {
+            int dir = 0;
+            vector< vector<int> > matrix(n, vector<int> (n, 0));
+            int i = 0, j = 0, k = 1;
+            while (k <= n * n) {
+                matrix[i][j] = k++;
+                if (dir == 0){
+                    j++;
+                    if (j == n || matrix[i][j] != 0) dir = 1, j--, i++;
+                } else
+                if (dir == 1) {
+                    i++;
+                    if (i == n || matrix[i][j] != 0) dir = 2, i--, j--;
+                } else
+                if (dir == 2) {
+                    j--;
+                    if (j < 0 || matrix[i][j] != 0) dir = 3, j++, i--;
+                } else
+                if (dir == 3) {
+                    i--;
+                    if (i < 0 || matrix[i][j] != 0) dir = 0, i++, j++;
+                }
+            }
+            return matrix;
+        }
+};
+
+
+my solution
+
+vector<vector<int> > Solution::generateMatrix(int A) {
+    int i=0, j=0, move=1, k=1, j1=A-1, i1=A-1, j2=0, i2=0, arr[A][A];
+
+    while(k<=(A*A)){
+
+        arr[i][j]=k++;
+        //cout<<"arr="<<arr[i][j]<<" move="<<move<<endl;
+
+        if(move==1){
+            if(j<j1){
+                j++;
+            }else{
+                j1--;
+                i++;
+                i2++;
+                move=2;
+            }
+        }else if(move==2){
+            if(i<i1){
+                i++;
+            }else{
+                i1--;
+                j--;
+                move=3;
+            }
+        }else if(move==3){
+            if(j>j2){
+                j--;
+            }else{
+                j2++;
+                i--;
+                move=4;
+            }
+        }else{
+            if(i>i2){
+                i--;
+            }else{
+                j++;
+                move=1;
+            }
+        }
+
+
+        //cout<<"i="<<i<<" j="<<j<<" i1="<<i1<<" i2="<<i2<<" j1="<<j1<<" j2="<<j2<<" move="<<move<<endl;
+    }
+
+    vector<vector<int>> v;
+    for(i=0;i<A;i++){
+        vector<int> v1;
+        for(j=0;j<A;j++){
+            v1.push_back(arr[i][j]);
+        }
+        v.push_back(v1);
+    }
+
+    return v;
+}
