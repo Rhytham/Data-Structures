@@ -1,30 +1,14 @@
-#include <iostream>
-using namespace std;
-
-int main() {
-	int t;
-	cin>>t;
-	for(int i=0; i<t; i++){
-	    int n;
-	    cin>>n;
-	    int arr[n], totalsum=0;
+int equilibriumPoint(long long a[], int n) {
+        long long totalsum=0;
 	    for(int j=0; j<n; j++){
-	        cin>>arr[j];
-	        totalsum += arr[j];
+	        totalsum += a[j];
 	    }
-	    int leftsum=0, rightsum=totalsum;
-	    bool found=0;
+	    long long leftsum=0, rightsum=totalsum;
 	    for(int j=0; j<n; j++){
-	        rightsum -= arr[j];
-	        if(leftsum==rightsum){
-	            found=1;
-	            cout<<j+1<<endl;
-	            break;
-	        }
-	        leftsum += arr[j]; 
+	        rightsum -= a[j];
+	        if(leftsum==rightsum)
+	            return j+1;
+	        leftsum += a[j]; 
 	    }
-	    if(!found)
-	        cout<<-1<<endl;
-	}
-	return 0;
+	    return -1;
 }
