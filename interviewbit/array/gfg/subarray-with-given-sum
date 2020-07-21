@@ -1,0 +1,25 @@
+void subarraySum(int arr[], int n, int s){
+    int left=0, right=0, current_sum=arr[0];
+    bool found=0;
+    while(left<n && right<n){
+        if(current_sum==s){
+            found=1;
+            cout<<left+1<<" "<<right+1;
+            break;
+        }
+        if(current_sum > s){
+            current_sum -= arr[left];
+            left++;
+            if(left>right)
+                right=left-1;
+        } else{
+            right++;
+            if(right==n)
+                break;
+            current_sum += arr[right];
+        }
+        
+    }
+    if(!found)
+        cout<<-1;
+}
