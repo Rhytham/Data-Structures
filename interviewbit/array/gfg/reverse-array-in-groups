@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n, g;
+	    cin>>n>>g;
+	    long long int A[n];
+	    for(int i=0; i<n; i++)
+	        cin>>A[i];
+	   int i=0;
+	   for(i=0; i<=n-g; i+=g){
+	       for(int j=0; j<g/2; j++){
+	           int temp=A[i+j];
+	           A[i+j] = A[i+g-1-j];
+	           A[i+g-1-j] = temp;
+	       }
+	   }
+	   if(i<n){
+	       int size = n-i;
+	       for(int j=0; j<size/2; j++){
+	           int temp=A[i+j];
+	           A[i+j] = A[i+size-1-j];
+	           A[i+size-1-j] = temp;
+	       }
+	   }
+	   cout<<A[0];
+	   for(int i=1; i<n; i++)
+	        cout<<" "<<A[i];
+	   cout<<endl;
+	}
+	
+	return 0;
+}
