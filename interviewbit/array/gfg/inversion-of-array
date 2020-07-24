@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+void merge(long long int A[], int l, int mid, int r, long long int &ans){
+    int n1 = mid-l+1, a1[n1];
+    int n2 = r-mid, a2[n2];
+    for(int i=0; i<n1; i++)
+        a1[i] = A[l+i];
+    for(int i=0; i<n2; i++)
+        a2[i] = A[mid+1+i];
+    int i=0, j=0, k=l;
+    while(i<n1 && j<n2){
+        if(a2[j] < a1[i]){
+            A[k++] = a2[j++];
+            ans += (n1-i);
+        } else
+            A[k++] = a1[i++];
+    }
+    while(i<n1)
+        A[k++] = a1[i++];
+    while(j<n2)
+        A[k++] = a2[j++];
+}
+void mergesort(long long int A[], int l, int r, long long int &ans){
+    if(l>=r)
+        return;
+    int mid = (l+r)/2;
+    mergesort(A, l, mid, ans);
+    mergesort(A, mid+1, r, ans);
+    merge(A, l, mid, r, ans);
+}
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    long long int A[n];
+	    for(int i=0; i<n; i++)
+	        cin>>A[i];
+	   long long int ans=0;
+	   mergesort(A, 0, n-1, ans);
+	   cout<<ans<<endl;
+	}
+	return 0;
+}
