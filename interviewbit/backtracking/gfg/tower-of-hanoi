@@ -1,0 +1,10 @@
+long long toh(int N, int from, int to, int aux) {
+    // Your code here
+    if(N>0){
+        int l1=toh(N-1, from, aux, to);
+        cout<<"move disk "<<N<<" from rod "<<from<<" to rod "<<to<<endl;
+        int l2=toh(N-1, aux, to, from);
+        return (long long)l1+(long long)l2+1;
+    }
+    return 0;
+}
