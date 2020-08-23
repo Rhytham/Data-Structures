@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    int coins[10] = {1,2,5,10,20,50,100,200,500,2000};
+	    vector<int> dp[n+1];
+	    vector<int> v;
+	    dp[0] = v;
+	    for(int i=1; i<=n; i++){
+	        int mn = INT_MAX, mni=-1, mnj=-1;
+	        for(int j=0; j<10; j++){
+	            if(coins[j] > i)
+	                break;
+	            if(dp[i-coins[j]].size()+1 < mn){
+	                mn = dp[i-coins[j]].size()+1;
+	                mni = i-coins[j];
+	                mnj = j;
+	            }
+	        }
+	        vector<int> v = dp[mni];
+	        dp[i] = v;
+	        dp[i].push_back(coins[mnj]);
+	    }
+	    for(int i=0; i<dp[n].size(); i++)
+	        cout<<dp[n][i]<<" ";
+	    cout<<endl;
+	}
+	return 0;
+}
