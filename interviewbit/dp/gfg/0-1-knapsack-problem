@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+bool cmp(pair<int,int> a, pair<int,int> b){
+    return a.second<b.second;
+}
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    int weight;
+	    cin>>weight;
+	    pair<int,int> w[n];
+	    for(int i=0; i<n ;i++)
+	        cin>>w[i].first;
+	    for(int i=0; i<n; i++)
+	        cin>>w[i].second;
+	    sort(w, w+n, cmp);
+	    int dp[weight+1];
+	    dp[0] = 0;
+	    for(int i=1; i<=weight; i++){
+	        dp[i]=0;
+	        for(int j=0; j<n; j++){
+	            if(w[j].second > i)
+	                break;
+	            dp[i] = max(dp[i], w[j].first+dp[i-w[j].second]);
+	        }
+	    }
+	    cout<<dp[weight]<<endl;
+	}
+	return 0;
+}
+
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+bool cmp(pair<int,int> a, pair<int,int> b){
+    return a.second<b.second;
+}
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    int weight;
+	    cin>>weight;
+	    pair<int,int> w[n];
+	    for(int i=0; i<n ;i++)
+	        cin>>w[i].first;
+	    for(int i=0; i<n; i++)
+	        cin>>w[i].second;
+	    sort(w, w+n, cmp);
+	    int dp[n+1][weight+1];
+	    for(int i=0; i<=n; i++){
+	        for(int j=0; j<=weight; j++){
+	            if(i==0 || j==0)
+	                dp[i][j] = 0;
+	            else{
+	                int mx = 0;
+	                if(w[i-1].second <= j)
+	                    mx = w[i-1].first+dp[i-1][j-w[i-1].second];
+	                mx = max(mx, dp[i-1][j]);
+	                dp[i][j] = mx;
+	            }
+	        }
+	    }
+	    cout<<dp[n][weight]<<endl;
+	}
+	return 0;
+}
