@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int solve(int coins[], int ind, int m, int sum , vector<vector<int> > &dp){
+    if(sum == 0)
+        return 1;
+    if(ind == m)
+        return 0;
+    if(dp[sum][ind] != -1)
+        return dp[sum][ind];
+    int ans = 0;
+    for(int i=ind; i<m; i++){
+        if(coins[i] > sum)
+            break;
+        ans += solve(coins, i, m, (sum-coins[i]), dp);
+    }
+    return dp[sum][ind] = ans;
+}
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int m;
+	    cin>>m;
+	    int coins[m];
+	    for(int i=0; i<m; i++)
+	        cin>>coins[i];
+	   sort(coins, coins+m);
+	   int sum;
+	   cin>>sum;
+	   vector<vector<int> > dp(sum+1, vector<int>(m, -1));
+	   cout<<solve(coins, 0, m, sum, dp)<<endl;
+	}
+	return 0;
+}
