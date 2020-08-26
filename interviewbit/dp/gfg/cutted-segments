@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    int xyz[3];
+	    cin>>xyz[0]>>xyz[1]>>xyz[2];
+	    sort(xyz, xyz+3);
+	    int dp[n+1];
+	    dp[0] = 0;
+	    for(int i=1; i<=n; i++){
+	        dp[i]=-1;
+	        for(int j=0; j<3; j++){
+	            if(i < xyz[j]  || dp[i-xyz[j]]==-1)
+	                continue;
+	            dp[i] = max(dp[i], dp[i-xyz[j]]+1);
+	        }
+	    }
+	    cout<<dp[n]<<endl;
+	}
+	return 0;
+}
