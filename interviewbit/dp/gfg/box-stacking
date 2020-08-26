@@ -1,0 +1,29 @@
+bool cmp(vector<int> a, vector<int> b){
+    return a[0]*a[1] < b[0]*b[1];
+}
+int maxHeight(int height[],int width[],int length[],int n)
+{   vector<vector<int> > v(3*n, vector<int>(3, 0));
+    for(int i=0; i<3*n; i+=3){
+        v[i][0] =  height[i/3];
+        v[i][1] = width[i/3];
+        v[i][2] = length[i/3];
+        v[i+1][0] = length[i/3];
+        v[i+1][1] = height[i/3];
+        v[i+1][2] = width[i/3];
+        v[i+2][0] = length[i/3];
+        v[i+2][1] = width[i/3];
+        v[i+2][2] = height[i/3];
+    }
+    sort(v.begin(), v.end(), cmp);
+    int dp[3*n];
+    int ans=0;
+    for(int i=0; i<3*n; i++){
+        dp[i] = v[i][2];
+        for(int j=0; j<i; j++){
+            if((v[j][0]<v[i][0] && v[j][1]<v[i][1]) ||  (v[j][1]<v[i][0] && v[j][0]<v[i][1]))
+                dp[i] = max(dp[i], dp[j]+v[i][2]);
+        }
+        ans = max(ans, dp[i]);
+    }
+    return ans;
+}
