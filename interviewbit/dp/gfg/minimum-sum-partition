@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int solve(int A[], int ind, int n, int sum, int total_sum, vector<vector<int> > &dp){
+    if(ind == n){
+        return abs(sum - (total_sum - sum));
+    }
+    if(dp[ind][sum] != -1)
+        return dp[ind][sum];
+    int diff1 = solve(A, ind+1, n, sum+A[ind], total_sum, dp);
+    int diff2 = solve(A, ind+1, n, sum, total_sum, dp);
+
+    int ans = min(diff1, diff2);
+    return dp[ind][sum]=ans;
+}
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    int A[n];
+	    int total_sum = 0;
+	    for(int i=0; i<n; i++){
+	        cin>>A[i];
+	        total_sum += A[i];
+	    }
+	    vector<vector<int> > dp(n, vector<int>(total_sum+1, -1));
+	    cout<<solve(A, 0, n, 0, total_sum, dp)<<endl;
+	}
+	return 0;
+}
