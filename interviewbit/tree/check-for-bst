@@ -1,0 +1,14 @@
+bool isbst(Node* root, int greater, int lesser){
+    if(!root)
+        return 1;
+    int l=1, r=1;
+    if(root->left)
+        l = (root->left->data <= root->data) && (root->left->data > greater) && (root->left->data <= lesser) && isbst(root->left, greater, root->data);
+    if(root->right)
+        r = (root->right->data > root->data) && (root->right->data > greater) && (root->right->data <= lesser) && isbst(root->right, root->data, lesser);
+    return l && r;
+}
+
+bool isBST(Node* root) {
+    return isbst(root, INT_MIN, INT_MAX);
+}
