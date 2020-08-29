@@ -1,0 +1,33 @@
+
+void printSpiral(Node *root)
+{   if(!root)
+        return;
+    queue<Node*> q;
+    q.push(root);
+    int flag = 1;
+    while(!q.empty()){
+        Node* node = q.front();
+        int n = q.size();
+        stack<Node*> s;
+        for(int i=0; i<n; i++){
+            node = q.front();
+            if(node->left)
+                q.push(node->left);
+            if(node->right)
+                q.push(node->right);
+            q.pop();
+            if(!flag){
+                cout<<node->data<<" ";
+            } else{
+                s.push(node);
+            }
+        }
+        if(flag){
+            while(!s.empty()){
+                cout<<s.top()->data<<" ";
+                s.pop();
+            }
+        }
+        flag = !flag;
+    }
+}
