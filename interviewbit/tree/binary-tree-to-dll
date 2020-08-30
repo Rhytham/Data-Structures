@@ -1,0 +1,25 @@
+Node * bToDLL(Node *A)
+{
+    Node* node = A;
+    stack<Node*> s;
+    Node* head = NULL, *prev = NULL;
+    while(!s.empty() || node){
+        while(node){
+            s.push(node);
+            node = node->left;
+        }
+        node = s.top();
+        s.pop();
+        if(!head)
+            head = node;
+        node->left = prev;
+        if(prev)
+            prev->right = node;
+        prev = node;
+        node = node->right;
+    }
+    if(prev)
+        prev->right = NULL;
+    return head;
+}
+
