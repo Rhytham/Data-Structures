@@ -1,0 +1,22 @@
+
+int mps(Node* A, int &mx){
+    if(!A)
+        return 0;
+    int l = mps(A->left, mx);
+    int r = mps(A->right, mx);
+    if(A->left && A->right){
+        mx = max(mx, l+r+A->data);
+        return max(l,r)+A->data;
+    }
+    if(A->left)
+        return l+A->data;
+    return r+A->data;
+    
+}
+
+int maxPathSum(Node* root)
+{ 
+    int mx = INT_MIN;
+    mps(root, mx);
+    return mx;
+}
