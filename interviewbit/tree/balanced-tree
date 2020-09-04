@@ -1,3 +1,24 @@
+int bb(Node* root){
+    if(!root)
+        return 0;
+    int l = bb(root->left);
+    int r = bb(root->right);
+    if(l==-1 || r==-1)
+        return -1;
+    if(abs(l-r)>1)
+        return -1;
+    return max(l,r)+1;
+}
+bool isBalanced(Node *root)
+{
+    if(bb(root) == -1)
+        return 0;
+    return 1;
+}
+ 
+ method2
+
+
 /**
  * Definition for binary tree
  * struct TreeNode {
