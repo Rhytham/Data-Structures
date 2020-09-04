@@ -1,0 +1,58 @@
+void serialize(Node *root,vector<int> &A)
+{
+    A.clear();
+    if(!root){
+        A.push_back(-1);
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    A.push_back(root->data);
+    while(!q.empty()){
+        Node* c = q.front();
+        q.pop();
+        if(c->left){
+            q.push(c->left);
+            A.push_back(c->left->data);
+        } else{
+            A.push_back(-1);
+        }
+        if(c->right){
+            q.push(c->right);
+            A.push_back(c->right->data);
+        } else{
+            A.push_back(-1);
+        }
+    }
+}
+
+/*this function deserializes
+ the serialized vector A*/
+
+Node * deSerialize(vector<int> &A)
+{
+    if(A[0] == -1)
+        return NULL;
+     Node* root = new Node(A[0]);
+     queue<Node*> q;
+     q.push(root);
+     int i=0;
+     while(!q.empty()){
+         Node* node = q.front();
+         q.pop();
+         if(A[i+1] == -1){
+             node->left = NULL;
+         } else{
+             node->left = new Node(A[i+1]);
+             q.push(node->left);
+         }
+         if(A[i+2] == -1){
+             node->right = NULL;
+         } else{
+             node->right = new Node(A[i+2]);
+             q.push(node->right);
+         }
+         i += 2;
+     }
+     return root;
+}
