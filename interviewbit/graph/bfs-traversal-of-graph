@@ -1,0 +1,22 @@
+vector <int> bfs(vector<int> g[], int N) {
+
+    queue<int> q;
+    q.push(0);
+    bool visited[N];
+    for(int i=0; i<N; i++)
+        visited[i] = 0;
+    vector<int> ans;
+    while(!q.empty()){
+        int c = q.front();
+        q.pop();
+        if(visited[c])
+            continue;
+        ans.push_back(c);
+        visited[c] = 1;
+        for(int i=0; i<g[c].size(); i++){
+            if(!visited[g[c][i]])
+                q.push(g[c][i]);
+        }
+    }
+    return ans;
+}
