@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+
+string find_palin(string str){
+    
+    int dp[str.length()][str.length()]={0};
+    
+    for(int i=0; i<str.length(); i++){
+        dp[i][i]=1;
+    }
+    for(int k=1; k<str.length(); k++){
+        for(int i=0; i<str.length()-k; i+=1){
+            if(str[i]==str[i+k]){
+               if(dp[i+1][i+k-1] > 0 || (i+1)>(i+k-1))
+                    dp[i][i+k] = 2+dp[i+1][i+k-1];
+                else
+                    dp[i][i+k] = 0;
+            } else{
+                dp[i][i+k] = 0;
+            }
+        }
+    }
+    int mx = 0, i1=-1, j1=-1;
+    for(int i=0; i<str.length(); i++){
+        for(int j=0; j<str.length(); j++){
+            if(dp[i][j] > mx){
+                mx = dp[i][j];
+                i1 = i;
+                j1 = j;
+            }
+        }
+    }
+    int len = mx;
+    int ii=0, jj=len-1;
+    string ans(len, '\0');
+    for(int i=i1, j=j1; ii<=jj; ){
+        ans[ii++] = str[i];
+        ans[jj--] = str[j];
+        i = i+1;
+        j = j-1;
+    }
+    return ans;
+}
+
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    string str;
+	    cin>>str;
+	    vector<vector<int> > dp(str.length(), vector<int>(str.length(),0));
+	    cout<<find_palin(str)<<endl;
+	}
+	return 0;
+}
