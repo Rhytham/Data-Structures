@@ -10,7 +10,7 @@ string find_palin(string str, int ind){
         dp[i][i]=1;
     }
     for(int k=1; k<str.length(); k++){
-        for(int i=0; i<str.length()-k; i+=(k+1)){
+        for(int i=0; i<str.length()-k; i+=1){
             if(str[i]==str[i+k]){
                 dp[i][i+k] = 2 + dp[i+1][i+k-1];
             } else{
