@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+void rec(string &s, int i, bool &b){
+    if(i == s.length())
+        return;
+    int j=i+1;
+    while(j<s.length() && s[i] == s[j]){
+        b=1;
+        j++;
+    }
+    if(j != i+1){
+        s.erase(i, j-i);
+        rec(s, i, b);
+        return;
+    }
+    rec(s, i+1, b);
+}
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    string s;
+	    cin>>s;
+	    bool b=0;
+	    while(!b){
+	        b=0;
+	        rec(s, 0, b);
+	    }
+	    cout<<s<<endl;
+	}
+	return 0;
+}
