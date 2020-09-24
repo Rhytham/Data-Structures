@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    string s1, s2;
+	    cin>>s1>>s2;
+	    if(s1.length()<=1 || s2.length()<=1){
+	        cout<<0<<endl;
+	        continue;
+	    }
+	    string temp1="";
+	    for(int i=2; i<s2.length()+2; i++)
+            temp1 += s2[i%s2.length()];
+        //cout<<temp1<<endl;
+	    if(temp1 == s1){
+	        cout<<1<<endl;
+	        continue;
+	    }
+	    string temp2 =  "";
+	    for(int i=s2.length()-2; i<(2*s2.length()-2); i++)
+            temp2 += s2[i%s2.length()];
+
+	    //cout<<temp2<<endl;
+	    if(temp2 == s1){
+	        cout<<1<<endl;
+	        continue;
+	    }
+	    cout<<0<<endl;
+	}
+	return 0;
+}
