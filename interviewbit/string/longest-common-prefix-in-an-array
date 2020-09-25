@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+struct TrieNode{
+    TrieNode* children[26];
+    bool eow;
+    int count;
+    TrieNode(){
+        for(int i=0; i<26; i++)
+            children[i] = NULL;
+        this->eow = false;
+        count = 0;
+    }
+};
+
+void insert(string s, TrieNode* root){
+    TrieNode* node = root;
+    for(int i=0; i<s.length(); i++){
+        int idx = s[i]-'a';
+        if(!node->children[idx]){
+            node->children[idx] = new TrieNode();
+            node->count++;   
+        }
+        node = node->children[idx];
+    }
+    node->eow = true;
+}
+
+int main() {
+	int test;
+	cin>>test;
+	for(int t=0; t<test; t++){
+	    int n;
+	    cin>>n;
+	    string arr[n];
+	    TrieNode* root = new TrieNode();
+	    for(int i=0; i<n; i++){
+	        cin>>arr[i];
+	        insert(arr[i], root);
+	    }
+	    string ans = "";
+	    while(root && root->count == 1 && !root->eow){
+	        for(int i=0; i<26; i++){
+	            if(root->children[i]){
+	                root = root->children[i];
+	                char c = 'a'+i;
+	                ans = ans + c;
+	                break;
+	            }
+	        }
+	    }
+	    if(ans.length() == 0)
+	        cout<<-1<<endl;
+	    else
+	        cout<<ans<<endl;
+	}
+	return 0;
+}
