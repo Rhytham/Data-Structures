@@ -1,0 +1,42 @@
+void lpsarray(string pat, int lps[]){
+    
+    int m = pat.length(), len=0;
+    lps[0] = 0;
+    for(int i=1; i<m; ){
+        if(pat[i] == pat[len]){
+            len++;
+            lps[i] = len;
+            i++;
+        } else{
+            if(len != 0){
+                len = lps[len-1];
+            } else{
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+}
+
+int strstr(string s, string x)
+{
+     int lps[x.length()];
+     lpsarray(x, lps);
+     int m = x.length(), n = s.length();
+     int i=0, j=0;
+     while(i<n){
+         if(s[i] == x[j]){
+             i++;
+             j++;
+         }
+         if(j == m)
+             return (i-j);
+         else if(i<n && x[j]!=s[i]){
+            if(j != 0)
+                j = lps[j-1];
+            else
+                i++;
+         }
+     }
+     return -1;
+}
