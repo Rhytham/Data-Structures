@@ -1,25 +1,31 @@
-bool cyclichelper(vector<int> g[], int V, bool visited[], int src, int parent){
-    visited[src] = 1;
-    for(int i=0; i<g[src].size(); i++){
-        int c = g[src][i];
-        if(!visited[c]){
-            bool cycle = cyclichelper(g, V, visited, c, src);
-            if(cycle)
+bool cyclichelper(vector<int> g[], int V, bool visited[], int src, bool recstack[], int parent){
+    if(!visited[src]){
+        visited[src] = 1;
+        recstack[src] = 1;
+        for(int i=0; i<g[src].size(); i++){
+            int c = g[src][i];
+            if(!visited[c]){
+                bool cycle = cyclichelper(g, V, visited, c, recstack, src);
+                if(cycle)
+                    return 1;
+            } else if(recstack[c] && c != parent)
                 return 1;
-        } else if(c != parent)
-            return 1;
+        }
     }
+    recstack[src] = 0;
     return 0;
 }
 
 bool isCyclic(vector<int> g[], int V)
 {
-    bool visited[V];
-    for(int i=0; i<V; i++)
+    bool visited[V], recstack[V];
+    for(int i=0; i<V; i++){
         visited[i] = 0;
+        recstack[i] = 0;
+    }
     for(int i=0; i<V; i++){
         if(!visited[i]){
-            if(cyclichelper(g, V, visited, i, -1))
+            if(cyclichelper(g, V, visited, i, recstack, -1))
                 return 1;
         }
     }
