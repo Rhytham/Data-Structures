@@ -1,0 +1,27 @@
+vector <int> dijkstra(vector<vector<int>> g, int src, int V)
+{
+    if(V == 0)
+        return vector<int>();
+        
+    vector<int> dist(V, INT_MAX);
+    set<pair<int, int> > s;
+    dist[src] = 0;
+    s.insert({0, src});
+    while(!s.empty()){
+        pair<int, int> node = *(s.begin());
+        s.erase(s.begin());
+        int nodedist = node.first, nodeval = node.second;
+        for(int i = 0; i < g[nodeval].size(); i++){
+            int child_dist = g[nodeval][i];
+            if(child_dist == 0)
+                continue;
+            if(nodedist + child_dist < dist[i]){
+                if(s.find({dist[i], i}) != s.end())
+                    s.erase({dist[i], i});
+                dist[i] = nodedist + child_dist;
+                s.insert({dist[i], i});
+            }
+        }
+    }
+    return dist;
+}
