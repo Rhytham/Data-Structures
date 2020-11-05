@@ -1,0 +1,30 @@
+void dfs(int i, vector<int> adj[], stack<int> &s, bool visited[]){
+    visited[i] = 1;
+    for(int j=0; j<adj[i].size(); j++){
+        int c = adj[i][j];
+        if(!visited[c]){
+            dfs(c, adj, s, visited);
+        }
+    }
+    s.push(i);
+}
+
+vector<int> topoSort(int V, vector<int> adj[]) {
+    // Your code here
+    stack<int> s;
+    vector<int> ans;
+    bool visited[V];
+    
+    for(int i=0; i<V; i++)
+        visited[i] = 0;
+        
+    for(int i=0; i<V; i++)
+        if(!visited[i])
+            dfs(i, adj, s, visited);
+            
+    while(!s.empty()){
+        ans.push_back(s.top());
+        s.pop();
+    }     
+    return ans;
+}
