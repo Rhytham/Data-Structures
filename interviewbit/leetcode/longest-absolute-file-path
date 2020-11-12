@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int max(int a, int b){
+        if(a>b)
+            return a;
+        return b;
+    }
+    int lengthLongestPath(string input) {
+        stack<pair<int, int> > s;
+        int curr_sum = 0;
+        int ans = 0;
+        for(int i=0; i<input.length(); ){
+            int t=0;
+            while(i < input.length() && (input[i] == '\n' || input[i] == '\t') ){
+                if(input[i] == '\t')
+                        t++;
+                i++;
+            }
+            while(!s.empty() && t <= s.top().second){
+                curr_sum -= s.top().first;
+                s.pop();
+            }
+            int temp = 0;
+            bool checkfile = 0;
+            while(i<input.length() && input[i] != '\n' ){
+                temp++;
+                if(input[i] == '.')
+                    checkfile = 1;
+                i++;
+            }
+
+            s.push({temp, t});
+            curr_sum += temp;
+            if(checkfile){
+                ans = max(ans, curr_sum+s.size()-1);
+                s.pop();
+                curr_sum -= temp;
+            }	
+         }
+         return ans;
+    }
+};
