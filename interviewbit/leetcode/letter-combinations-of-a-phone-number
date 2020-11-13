@@ -1,3 +1,5 @@
+
+//recursive
 class Solution {
 public:
     void sol(string s, int ind, string temp, unordered_map<char, vector<char> > m, vector<string> &ans){
@@ -26,5 +28,43 @@ public:
         m['9'] = {'w', 'x', 'y', 'z'};
         sol(digits, 0, "", m, ans);
         return ans;
+    }
+};
+
+
+//iterative
+class Solution {
+public:
+    
+    vector<string> letterCombinations(string digits) {
+        vector<string> list;
+	    if(digits.length() == 0)
+            return list;
+        vector<char> m[10];
+        m[2] = {'a', 'b', 'c'};
+        m[3] = {'d', 'e', 'f'};
+        m[4] = {'g', 'h', 'i'};
+        m[5] = {'j', 'k', 'l'};
+        m[6] = {'m', 'n', 'o'};
+        m[7] = {'p', 'q', 'r', 's'};
+        m[8] = {'t', 'u', 'v'};
+        m[9] = {'w', 'x', 'y', 'z'};
+ 
+    queue<string> q;
+    q.push("");
+    int n = digits.length();
+    while (!q.empty()) {
+        string s = q.front();
+        q.pop();
+ 
+        if (s.length() == n)
+            list.push_back(s);
+        else
+ 
+            for (auto letter : m[digits[s.length()]-'0'])
+                q.push(s + letter);
+    }
+ 
+    return list;
     }
 };
