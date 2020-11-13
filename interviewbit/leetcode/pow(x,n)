@@ -1,0 +1,32 @@
+class Solution {
+public:
+    double sol(double x, long n){
+        if(n==0)
+	        return 1;
+        if(n < 0){
+            x = 1/x;
+            n = -n;
+        }
+        long int i = 1;
+        double num = 1;
+        if(n%2 != 0){
+            num = x;
+            n--;
+        }
+        while(i<=(long)n){
+            double num2 = x;
+            while(i*2 <= (long)n){
+                num2 *= num2;
+                i *= 2;
+            }
+            num *= num2;
+            n = n-i;
+            i = 1;
+       }
+       return num;
+    }
+    double myPow(double x, int n) {
+       return sol(x, (long)n);
+    }
+
+};
