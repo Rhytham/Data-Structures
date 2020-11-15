@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        if(n == 0)
+            return ans;
+        queue<pair<string, pair<int, int> > > q;
+        q.push({"", {0,0}});
+        while(!q.empty()){
+            pair<string, pair<int, int> > p = q.front();
+            q.pop();
+            if(p.first.length() == n*2){
+                ans.push_back(p.first);
+                continue;
+            }
+            pair<int, int> pp = p.second;
+            if(pp.first < n)
+                q.push({p.first+'(', {pp.first+1, pp.second}});
+            if(pp.first > pp.second)
+                q.push({p.first+')', {pp.first, pp.second+1}});
+        }
+        return ans;
+
+    }
+};
