@@ -19,3 +19,26 @@ public:
 
     }
 };
+
+class Solution {
+public:
+    static bool cmp(const vector<int> &a, const vector<int> &b){
+        return (a[0]<b[0]);
+    }
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), cmp);
+        int index = 0;
+        for(int i=0; i<intervals.size(); ){
+            int mn = intervals[i][0], mx = intervals[i][1];
+            while(i+1<intervals.size() && mx >= intervals[i+1][0]){
+                i++;
+                mn = min(mn, intervals[i][0]);
+                mx = max(mx, intervals[i][1]);
+            }
+            intervals[index++] = {mn, mx}; 
+            i++;
+        }
+        intervals.erase(intervals.begin()+index, intervals.end());
+        return intervals;
+    }
+};
